@@ -26,17 +26,6 @@ local robotApi = require("robot")
 
 
 --
--- Tables
---
-
-local cycles = {
-  square = squareCycle ,
-  lane = laneCycle,
-  laneBF = laneBFCycle
-}
-
-
---
 -- Fonctions
 --
 
@@ -56,10 +45,11 @@ end
 function cycle(cycleType,cycleLength)
   logDebug("Start : cycle")
   logDebug("cycleType: " .. cycleType)
-  logDebug("cycleLength: " .. cycleLength[0])
+  logDebug("cycleLength: " .. cycleLength[1])
   
   local cycleFct = cycles[cycleType]
-  logDebug("cycleFct: " .. cycleFct)
+  logDebug("cycleFct: ")
+  logDebug(cycleFct)
   cycleFct(cycleLength) 
 
   logDebug("End : cycle")
@@ -91,7 +81,7 @@ function laneCycle(length, isBackAndForth)
   local laneEndCpt = 0
   local isObstruct = false
   local typeDetect = ""
-  local isCountBased = length[0] >= 0
+  local isCountBased = length[1] >= 0
   local stepCount = 0
   isBackAndForth = isBackAndForth or false
   
@@ -111,9 +101,9 @@ function laneCycle(length, isBackAndForth)
       
       -- Lane Status
       stepCount = stepCount + 1
-      checkInfiniteLaneOverflow(step, infiniteLaneOverflowThreshold)
+      checkInfiniteLaneOverflow(stepCount, infiniteLaneOverflowThreshold)
       
-      laneEnd = isCountBased and stepCount > length[0]
+      laneEnd = isCountBased and stepCount > length[1]
       laneEnd = laneEnd or (not isCountBased and infiniteLaneEnd() )
 
     end
@@ -122,9 +112,12 @@ function laneCycle(length, isBackAndForth)
     cycleEnd = (isBackAndForth) and (laneEndCpt > 1) or (laneEndCpt > 0)
     
     -- End Actions
+	if not cycleEnd and isBackAndForth then robotApi.turnAround() end
     stepCount = 0
     
   end
+  
+  robotApi.turnAround()
   
   logDebug("End : laneCycle")
 end
@@ -141,6 +134,10 @@ end
 
 function checkInfiniteLaneOverflow(step, threshold)
   threshold = threshold or 2000
+  logDebug("Threshold then step :")
+  logDebug(threshold)
+  logDebug(step)
+  
   if step > threshold then
     print("Infinite Lane Overflow")
     robotApi.turnAround()
@@ -159,6 +156,17 @@ function logDebug(message)
     print(message)
   end
 end
+
+
+--
+-- Tables
+--
+
+local cycles = {
+  square = squareCycle ,
+  lane = laneCycle,
+  laneBF = laneBFCycle
+}
 
 
 --
