@@ -26,6 +26,17 @@ local robotApi = require("robot")
 
 
 --
+-- Tables
+--
+
+local cycles = {
+  square = squareCycle ,
+  lane = laneCycle,
+  laneBF = laneBFCycle
+}
+
+
+--
 -- Fonctions
 --
 
@@ -156,17 +167,6 @@ function logDebug(message)
     print(message)
   end
 end
-
-
---
--- Tables
---
-
-local cycles = {
-  square = squareCycle ,
-  lane = laneCycle,
-  laneBF = laneBFCycle
-}
 
 
 --
