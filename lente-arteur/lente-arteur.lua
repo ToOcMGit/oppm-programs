@@ -97,7 +97,7 @@ function laneCycle(length, isBackAndForth)
   isBackAndForth = isBackAndForth or false
   
   while not cycleEnd do
-
+    
     laneEnd = false
     
     while not laneEnd do
@@ -116,14 +116,14 @@ function laneCycle(length, isBackAndForth)
       
       laneEnd = isCountBased and stepCount > length[1]
       laneEnd = laneEnd or (not isCountBased and infiniteLaneEnd() )
-
+      
     end
       
     -- Cycle Status
     cycleEnd = (isBackAndForth) and (laneEndCpt > 1) or (laneEndCpt > 0)
     
     -- End Actions
-	if not cycleEnd and isBackAndForth then robotApi.turnAround() end
+    if not cycleEnd and isBackAndForth then robotApi.turnAround() end
     stepCount = 0
     
   end
