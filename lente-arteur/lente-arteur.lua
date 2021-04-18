@@ -123,12 +123,16 @@ function laneCycle(length, isBackAndForth)
     cycleEnd = (isBackAndForth) and (laneEndCpt > 1) or (laneEndCpt > 0)
     
     -- End Actions
-    if not cycleEnd and isBackAndForth then robotApi.turnAround() end
+    if not cycleEnd and isBackAndForth then 
+        robotApi.turnLeft()
+        robotApi.turnLeft()		
+    end
     stepCount = 0
     
   end
   
-  robotApi.turnAround()
+  robotApi.turnLeft()
+  robotApi.turnLeft()
   
   logDebug("End : laneCycle")
 end
@@ -151,7 +155,8 @@ function checkInfiniteLaneOverflow(step, threshold)
   
   if step > threshold then
     print("Infinite Lane Overflow")
-    robotApi.turnAround()
+    robotApi.turnLeft()
+	robotApi.turnLeft()
     launchFirework()
     os.exit(false)
   end
