@@ -124,7 +124,7 @@ function laneCycle(length, isBackAndForth)
     
     -- End Actions
     if not cycleEnd and isBackAndForth then
-		while not robotApi.turnAround() then os.sleep(1) end
+		while not robotApi.turnAround() do os.sleep(1) end
 	end
     stepCount = 0
     
